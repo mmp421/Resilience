@@ -1,4 +1,3 @@
-//#include <ArduinoBLE.h>
 
 #include "dht.h"
 #include <SPI.h>
@@ -28,7 +27,7 @@ void setup() {
   display.display();
 
   //Initialize light
-  pinMode(A7, OUTPUT);
+  pinMode(2, OUTPUT);
 }
 
 void loop() {
@@ -48,7 +47,6 @@ void loop() {
   //serial print LIGHT
   Serial.println("Analog Value :");
   Serial.println(value);
-  Serial.println(A7);
   delay(250);
 
   //display sensor readings
@@ -65,14 +63,14 @@ void loop() {
   display.println("C  ");
   display.println(" ");
 
-  if (value < 1000) {
+  if (value < 990) {
     display.println("DARK");
     //turn on light
-    digitalWrite(A7, HIGH);
+    digitalWrite(2, HIGH);
   } else {
     display.println("LIGHT");
     //turn off light
-    digitalWrite(A7, LOW);
+    digitalWrite(2, LOW);
   }
 
   display.display();
