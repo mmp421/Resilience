@@ -1,0 +1,57 @@
+//#include <ArduinoBLE.h>
+
+#include "dht.h"
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+Adafruit_SSD1306 display = Adafruit_SSD1306(128, 32, &Wire);
+
+//sensor
+//the library is from here: https://www.brainy-bits.com/dht11-tutorial/
+#define dht_apin A0 
+dht DHT;
+
+void setup() {
+  Serial.begin(115200);
+
+  // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
+  // init done
+
+  display.display();
+  delay(1000);
+
+  // Clear the buffer.
+  display.clearDisplay();
+  display.display();
+  }
+
+void loop() {
+
+  //get sensor readings
+  DHT.read11(dht_apin);
+
+  Serial.println("humidity = ");
+  Serial.println(DHT.humidity);
+  Serial.println("temperature = ");
+  Serial.println(DHT.temperature);
+
+  //display sensor readings
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+
+  display.println("humidity = ");
+  display.print(DHT.humidity);
+  display.println("%  ");
+  display.println("temperature = ");
+  display.print(DHT.temperature);
+  display.println("C  ");
+  display.display();
+  
+  delay(1500);
+  display.clearDisplay(); 
+ 
+}
