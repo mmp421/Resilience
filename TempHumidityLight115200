@@ -26,6 +26,9 @@ void setup() {
   // Clear the buffer.
   display.clearDisplay();
   display.display();
+
+  //Initialize light
+  pinMode(A7, OUTPUT);
 }
 
 void loop() {
@@ -45,6 +48,7 @@ void loop() {
   //serial print LIGHT
   Serial.println("Analog Value :");
   Serial.println(value);
+  Serial.println(A7);
   delay(250);
 
   //display sensor readings
@@ -55,22 +59,24 @@ void loop() {
   display.print("humidity = ");
   display.print(DHT.humidity);
   display.println("%  ");
-  display.println("temp = ");
+
+  display.print("temp = ");
   display.print(DHT.temperature);
   display.println("C  ");
+  display.println(" ");
 
   if (value < 1000) {
     display.println("DARK");
+    //turn on light
+    digitalWrite(A7, HIGH);
   } else {
     display.println("LIGHT");
+    //turn off light
+    digitalWrite(A7, LOW);
   }
 
   display.display();
 
   delay(1500);
   display.clearDisplay();
-
-  //PHOTORESISTOR
-
-
 }
